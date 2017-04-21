@@ -1,6 +1,8 @@
 import os
 import re
 from string import letters
+from rot13 import *
+from signup import *
 
 import webapp2
 import jinja2
@@ -47,9 +49,9 @@ class Post(db.Model):
 
 class BlogFront(BlogHandler):
     def get(self):
-        posts = Post.all().order('-created')
-        # posts = db.GqlQuery("select * from Post
-        # order by created desc limit 10") - using GqlQuery example
+        # posts = Post.all().order('-created') # using python example
+        posts = db.GqlQuery("select * from Post\
+        order by created desc limit 10") # using GqlQuery example
         self.render('front.html', posts = posts)
 
 class PostPage(BlogHandler):
@@ -142,28 +144,3 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/rot13', Rot13Page),
                                ],
                                debug=True)
-
-rot13_set = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
-            'Q','R','S','T','U','V','W','X','Y','Z','A','B','C','D','E','F','G',
-            'H','I','J','K','L','M',
-            'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p',
-            'q','r','s','t','u','v','w','x','y','z','a','b','c','d','e','f','g',
-            'h','i','j','k','l','m']
-
-USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-PASSWORD_RE = re.compile(r"^.{3,20}$")
-EMAIL_RE = re.compile(r"^[\S]+@[\S]+\.[\S]+$")
-def valid_username(username):
-    return USER_RE.match(username)
-def valid_password(password):
-    return PASSWORD_RE.match(password)
-def valid_email(email):
-    if email == "":
-        return True
-    elif email != "":
-        return EMAIL_RE.match(email)
-def verify_password(password, verify):
-    if password == verify:
-        return True
-    else:
-        return False
