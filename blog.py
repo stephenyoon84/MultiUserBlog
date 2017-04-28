@@ -185,7 +185,7 @@ class PostPage(BlogHandler):
             comments = Comment_db(
                 parent=comment_key(), content=comment,
                 relate_post=str(post.key().id()), name=self.user.name)
-            coments.put()
+            comments.put()
             self.redirect("/blog/%s" % str(post.key().id()))
         else:
             self.redirect("/blog/%s" % str(post.key().id()))
