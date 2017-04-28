@@ -6,15 +6,27 @@
     <link rel="stylesheet" href="/static/main.css">
   </head>
 
-  <body style="margin: 0">
-    <h1 style="background-color: #ddd; color: #888; margin: 0 height: 50px">
-      FSND Basic Blog - Stephen Yoon
+  <body>
+    <h1>
+      <a href="/" class="login-link">
+        FSND Basic Blog - Stephen Yoon
+      </a>
     </h1>
     <a href="/blog" class="post-title">Click here to go to the blog</a>
     <br>
     <a href="/blog/newpost" class="post-title">Click here for new post</a>
     <br>
     <a href="/rot13" class="post-title">Click here to go to the rot13 page</a>
+    <br>
+    <a href="/signup" class="login_area login-link">Sign Up</a>
+    <br>
+    <a href="/login" class="login_area login-link">Log In</a>
+    <br>
+    <a href="/logout" class="login_area login-link">Log Out</a>
+    <br><br><br>
+
+    {% block content %}
+    {% endblock %}
 
   </body>
 

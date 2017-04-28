@@ -1,5 +1,48 @@
-{% extends "base.html" %}
+{% extends "mainpage.html" %}
 
 {% block content %}
   {{ post.render() | safe }}
+
+  <br>
+  <div class="error">
+    {{ error }}
+  </div>
+  <div class="buttons">
+    <form class="like_button" action="/likescore" method="get">
+      <input type="hidden" name="post_id" value="{{post.key().id()}}">
+      <input type="submit" class="like_unlike" name="likes" value="{{ like_unlike }}">
+    </form>
+    <form action="/blog/delete/{{post.key().id()}}" method="post" class="delete-button">
+      <input type="submit" name="delete" value="delete">
+    </form>
+    <form action="/blog/editpost/{{post.key().id()}}" method="get" class="edit-button">
+      <input type="submit" name="edit" value="edit">
+    </form>
+  </div>
+  <br>
+  <hr>
+  <div class="cooment_list">
+    {% for comment in comments %}
+      <div class="comment">
+        {{ comment.name }}:&nbsp;{{ comment.content }}
+        <form action="/deletecomment" method="get">
+          <input type="hidden" name="com_id" value="{{comment.key().id()}}">
+          <input type="submit" value="Delete" class="comment-delete">
+        </form>
+      </div>
+      <br>
+    {% endfor %}
+    <br>
+  </div>
+  <div class="comment_add">
+    <form action="/blog/{{post.key().id()}}" method="post">
+      <div class="error">
+        {{ error_comment }}
+      </div>
+      Comment :
+      <input type="text" name="comment" value="" class="comment">
+      <input type="submit" class="comment">
+    </form>
+  </div>
+
 {% endblock %}

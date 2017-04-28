@@ -1,15 +1,27 @@
 <div class="post">
   <div class="post-heading">
-    <div class="post-title">
-      <a href="/blog/{{p.key().id()}}" class="post-title">{{ p.subject }}</a>
+    <div class="post-head-up">
+      <div class="post-title">
+        <a href="/blog/{{p.key().id()}}" class="post-title" name="subject">{{ p.subject }}</a>
+      </div>
+      <div class="post-score">
+        {{p.score}}
+      </div>
     </div>
-
-    <div class="post-date">
-      {{ p.created.strftime("%b %d, %Y") }}
+    <br>
+    <div class="post-head-down">
+      <div class="post-author" name="name">
+        {{ p.name }}
+      </div>
+      <div class="post-date">
+        {{ p.created.strftime("%b %d, %Y") }}
+      </div>
     </div>
   </div>
 
-  <div class="post-content">
-    {{ p._render_text | safe }}
+  <div class="post-content" name="content">
+    {% for line in p.content.splitlines() %}
+      {{line}}<br>
+    {% endfor %}
   </div>
-</div>
+<div>
