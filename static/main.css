@@ -176,6 +176,10 @@ hr {
   float: right;
 }
 
+.cancel-button {
+  margin-top: 5px;
+}
+
 .age {
     position: absolute;
     bottom: 0px;

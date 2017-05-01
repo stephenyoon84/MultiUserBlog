@@ -20,6 +20,8 @@ FSND-Project-MultiUserBlog
 ## Folder
 * static : Contain CSS file
 * templates : Contain HTML Files
+* models : Contain database(db.Model)
+* handlers : Contain handlers
 
 ## Files
 * app.yaml
@@ -40,3 +42,4 @@ FSND-Project-MultiUserBlog
           - Post show how many likes they got
           - Sign up, Log in, Log out
           - Rot 13 Page
+* utils.py : Contain global functions

@@ -8,15 +8,17 @@
     {{ error }}
   </div>
   <div class="buttons">
-    <form class="like_button" action="/likescore" method="get">
+    <form class="like_button" action="/blog/{{post.key().id()}}/likescore" method="post">
       <input type="hidden" name="post_id" value="{{post.key().id()}}">
       <input type="submit" class="like_unlike" name="likes" value="{{ like_unlike }}">
     </form>
-    <form action="/blog/delete/{{post.key().id()}}" method="post" class="delete-button">
-      <input type="submit" name="delete" value="delete">
+    <form action="/deletepost" method="post" class="delete-button">
+      <input type="hidden" name="post_id" value="{{post.key().id()}}">
+      <input type="submit" name="delete" value="Delete">
     </form>
-    <form action="/blog/editpost/{{post.key().id()}}" method="get" class="edit-button">
-      <input type="submit" name="edit" value="edit">
+    <form action="/editpost" method="post" class="edit-button">
+      <input type="hidden" name="post_id" value="{{post.key().id()}}">
+      <input type="submit" name="edit" value="Edit">
     </form>
   </div>
   <br>
