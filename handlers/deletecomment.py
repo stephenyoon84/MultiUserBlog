@@ -22,8 +22,7 @@ class DeleteComment(BlogHandler):
 
         if comment.content:
             if not user:
-                error = "Please log in/sign up first."
-                permalink(self, post_id, error_comment=error)
+                self.redirect("/login")
             elif comment.name == user.name:
                 comment.delete()
                 self.redirect("/blog/%s" % str(comment.relate_post))

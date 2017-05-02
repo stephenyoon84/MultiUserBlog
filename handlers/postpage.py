@@ -12,7 +12,7 @@ class PostPage(BlogHandler):
 
         if not post:
             self.error(404)
-            return
+            return self.redirect('/login')
         permalink(self, post_id)
 
     def post(self, post_id):
@@ -23,10 +23,11 @@ class PostPage(BlogHandler):
         comments = db.get(comments_key)
         post_key = db.Key.from_path('Post', int(post_id), parent=blog_key())
         post = db.get(post_key)
+        if not post:
+            return self.redirect('/login')
 
         if not self.user:
-            error = "Please log in/sign up first."
-            permalink(self, post_id, error_comment=error)
+            self.redirect("/login")
         elif comment:
             comments = Comment_db(
                 parent=comment_key(), content=comment,

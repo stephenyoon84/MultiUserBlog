@@ -19,8 +19,7 @@ class LikePost(BlogHandler):
         WHERE relate_post='%s' ORDER BY created" % str(post.key().id()))
 
         if not user:
-            error = "Please log in/sign up first."
-            permalink(self, post_id, error=error)
+            self.redirect("/login")
         elif post.name == user.name:
             error = "You cannot like your own post."
             permalink(self, post_id, error=error)

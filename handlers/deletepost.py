@@ -10,12 +10,13 @@ class DeletePost(BlogHandler):
         post_id = self.request.get("post_id")
         key = db.Key.from_path('Post', int(post_id), parent=blog_key())
         post = db.get(key)
+        if not post:
+            return self.redirect('/login')
         comments = db.GqlQuery("SELECT * FROM Comment_db\
         WHERE relate_post='%s' ORDER BY created" % str(post.key().id()))
 
         if not self.user:
-            error = "Please log in/sign up first."
-            permalink(self, post_id, error=error)
+            self.redirect("/login")
         elif self.user.name == post.name:
             post.delete()
             self.redirect("/")

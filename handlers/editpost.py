@@ -14,8 +14,7 @@ class ToEditPost(BlogHandler):
         WHERE related_post='%s' ORDER BY created" % str(post.key().id()))
 
         if not self.user:
-            error = "Please log in/sign up first."
-            permalink(self, post_id, error=error)
+            self.redirect("/login")
         elif self.user.name == post.name:
             self.redirect("/blog/editpost/%s" % str(post_id))
         else:
@@ -38,10 +37,7 @@ class EditPost(BlogHandler):
         post = db.get(key)
 
         if not self.user:
-            error = "Please log in/sign up first."
-            self.render(
-            "editpost.html", subject=subject, content=content,
-            error=error, post_id=post.key().id())
+            self.redirect("/login")
         elif not self.user.name == post.name:
             error = "You cannot edit this post."
             self.render(

@@ -8,17 +8,17 @@ from utils import *
 class NewPost(BlogHandler):
     # post new post to the blog store in Post
     def get(self):
-        self.render("newpost.html")
+        if not self.user:
+            self.redirect("/login")
+        else:
+            self.render("newpost.html")
 
     def post(self):
         subject = self.request.get("subject")
         content = self.request.get("content")
 
         if not self.user:
-            error = "Please log in/sign up first."
-            self.render("newpost.html", subject=subject,
-                        content=content, error=error)
-
+            self.redirect("/login")
         elif subject and content:
             p = Post(
                 parent=blog_key(), subject=subject,
