@@ -12,15 +12,9 @@ class DeleteComment(BlogHandler):
         com_key = db.Key.from_path(
             'Comment_db', int(comments_id), parent=comment_key())
         comment = db.get(com_key)
+        post_id = self.request.get("post_id")
         user = self.user
-        post_key = db.Key.from_path('Post', int(comment.relate_post),
-                                    parent=blog_key())
-        post = db.get(post_key)
-        post_id = post.key().id()
-        comments = db.GqlQuery("SELECT * FROM Comment_db\
-        WHERE relate_post='%s' ORDER BY created" % str(post.key().id()))
-
-        if comment.content:
+        if comment:
             if not user:
                 self.redirect("/login")
             elif comment.name == user.name:

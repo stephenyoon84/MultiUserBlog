@@ -29,6 +29,7 @@
         {{ comment.name }}:&nbsp;{{ comment.content }}
         <form action="/deletecomment" method="get">
           <input type="hidden" name="com_id" value="{{comment.key().id()}}">
+          <input type="hidden" name="post_id" value="{{post.key().id()}}">
           <input type="submit" value="Delete" class="comment-delete">
         </form>
       </div>

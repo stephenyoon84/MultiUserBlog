@@ -26,9 +26,16 @@ class EditPost(BlogHandler):
     def get(self, post_id):
         key = db.Key.from_path('Post', int(post_id), parent=blog_key())
         post = db.get(key)
-        self.render(
-        'editpost.html', subject=post.subject, content=post.content,
-        post_id=post.key().id())
+        if not self.user:
+            self.redirect("/login")
+        elif not post:
+            self.redirect("/login")
+        elif not self.user.name == post.name:
+            self.redirect("/login")
+        else:
+            self.render(
+            'editpost.html', subject=post.subject, content=post.content,
+            post_id=post.key().id())
 
     def post(self, post_id):
         subject = self.request.get("subject")
@@ -36,26 +43,29 @@ class EditPost(BlogHandler):
         key = db.Key.from_path('Post', int(post_id), parent=blog_key())
         post = db.get(key)
 
-        if not self.user:
-            self.redirect("/login")
-        elif not self.user.name == post.name:
-            error = "You cannot edit this post."
-            self.render(
-            "editpost.html", subject=subject, content=content,
-            error=error, post_id=post.key().id())
-        else:
-            if subject and content:
-                post.subject = subject
-                post.content = content
-                post.put()
-                self.redirect("/blog/%s" % str(post.key().id()))
-            else:
-                subject = post.subject
-                content = post.content
-                error = "Subject and content, please!!"
+        if post:
+            if not self.user:
+                self.redirect("/login")
+            elif not self.user.name == post.name:
+                error = "You cannot edit this post."
                 self.render(
                 "editpost.html", subject=subject, content=content,
                 error=error, post_id=post.key().id())
+            else:
+                if subject and content:
+                    post.subject = subject
+                    post.content = content
+                    post.put()
+                    self.redirect("/blog/%s" % str(post.key().id()))
+                else:
+                    subject = post.subject
+                    content = post.content
+                    error = "Subject and content, please!!"
+                    self.render(
+                    "editpost.html", subject=subject, content=content,
+                    error=error, post_id=post.key().id())
+        else:
+            self.redirect("/blog")
 
 
 class CancelEdit(BlogHandler):
