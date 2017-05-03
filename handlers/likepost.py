@@ -17,22 +17,24 @@ class LikePost(BlogHandler):
         comment = db.get(com_key)
         comments = db.GqlQuery("SELECT * FROM Comment_db\
         WHERE relate_post='%s' ORDER BY created" % str(post.key().id()))
-
-        if not user:
-            self.redirect("/login")
-        elif post.name == user.name:
-            error = "You cannot like your own post."
-            permalink(self, post_id, error=error)
-        else:
-            if user.name in post.liker:
-                msg = "You unlike this post."
-                post.score = post.score - 1
-                post.liker.remove('%s' % user.name)
-                post.put()
-                permalink(self, post_id, error=msg)
+        if post:
+            if not user:
+                self.redirect("/login")
+            elif post.name == user.name:
+                error = "You cannot like your own post."
+                permalink(self, post_id, error=error)
             else:
-                msg = "You like this post."
-                post.score = post.score + 1
-                post.liker.append('%s' % user.name)
-                post.put()
-                permalink(self, post_id, error=msg)
+                if user.name in post.liker:
+                    msg = "You unlike this post."
+                    post.score = post.score - 1
+                    post.liker.remove('%s' % user.name)
+                    post.put()
+                    permalink(self, post_id, error=msg)
+                else:
+                    msg = "You like this post."
+                    post.score = post.score + 1
+                    post.liker.append('%s' % user.name)
+                    post.put()
+                    permalink(self, post_id, error=msg)
+        else:
+            self.redirect("/blog")

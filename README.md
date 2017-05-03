@@ -2,6 +2,7 @@
 FSND-Project-MultiUserBlog
 
 ## Project Created Apr 19, 2017
+## Project Meets Specification May 3, 2017
 
 * Run local host : `dev_appserver.py .`
 * Deploy app to Google Cloud Platform :
